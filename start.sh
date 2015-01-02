@@ -89,6 +89,14 @@ if [ ! "$new_wp_base_url" == "" ]; then
   fi
 fi
 
+echo ""
+echo Removing leftover database and install files
+pushd /usr/share/nginx/www
+rm database.sql installer-backup.php installer-data.sql installer.with.shim.php
+ls /wp-install | xargs rm
+popd
+
+
 if [ "$started_mysql" == "1" ]; then
   echo Stopping MySQL...will restart via supervisord momentarily
   killall mysqld
