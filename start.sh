@@ -48,7 +48,7 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   echo $ROOT_DB_PASSWORD > /root-db-pw.txt
   echo $WP_DB_PASSWORD > /wordpress-db-pw.txt
   mysqladmin -u root password $ROOT_DB_PASSWORD
-  mysql -uroot -p$ROOT_DB_PASSWORD -e "CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD'; FLUSH PRIVILEGES;"
+  mysql -uroot -p$ROOT_DB_PASSWORD -e "CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '$WP_DB_PASSWORD'; FLUSH PRIVILEGES;" 
   
   echo Installing WordPress from host WordPress Duplicator package
   rm -rf /usr/share/nginx/www
@@ -56,10 +56,15 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   cd /usr/share/nginx/www
   cat /G11DockerWP/g11.installer.shim.php installer.php > installer.with.shim.php
   php installer.with.shim.php localhost wordpress $WP_DB_PASSWORD wordpress *.zip
+  echo ""
+  echo "Completed Duplicator install"
   chown -R www-data:www-data /usr/share/nginx/www
   
   echo Installing the Nginx helper plugin
-  wp plugin install nginx-helper --activate
+  ln -s /usr/share/nginx/www /var/www
+  chsh -s /bin/bash www-data
+  sudo -u www-data -i -- wp plugin install nginx-helper --activate
+  chsh -s /usr/sbin/nologin
   
   echo Making the WordPress directory writeable by Nginx
   chown -R www-data:www-data /usr/share/nginx/www

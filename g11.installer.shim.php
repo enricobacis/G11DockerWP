@@ -17,6 +17,10 @@ if (PHP_SAPI === 'cli' ) {
      die("Fatal error: Wrong number of arguments.\n" . COMMAND_LINE_USAGE);
   }
 
+  # Create a dummy server name / request URI so the script doesn't complain
+  $_SERVER['SERVER_NAME'] = 'localhost';
+  $_SERVER['REQUEST_URI'] = '/dummy-uri-set-in-shim';
+
   # Populate MySQL DB Parameters for the WP install
   $_POST["dbhost"] = $argv[1];
   $_POST["dbuser"] = $argv[2];
