@@ -30,7 +30,7 @@ Docker client does not run on Windows for now. Please use
     "boot2docker" ssh
 to SSH into the VM instead.
 
-C:\Users\Me> boot2docer halt
+C:\Users\Me> boot2docker halt
 
 C:\Users\Me> 
 ````
@@ -50,7 +50,7 @@ Execute the following in your command prompt:
 ````
 C:\Users\Me> boot2docker up
 ...
-C:\Users\Me> boot2docer ssh
+C:\Users\Me> boot2docker ssh
 ````
 
 ####Step 4: Mount the Duplicator files
